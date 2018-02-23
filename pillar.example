@@ -1,0 +1,8 @@
+# vim: ft=sls
+
+letsencrypt:
+  domain: example.com
+  altnames: www.example.com alt.example.com
+  contact_email: hostmaster@example.com
+  acme_challenge_dir: /etc/ssl/acme/challenges
+  acme_certificate_dir: /etc/ssl/acme/certs

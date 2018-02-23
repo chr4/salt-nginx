@@ -1,0 +1,11 @@
+[Unit]
+Description=Timer to automatically renew ACME certificates (daily)
+
+[Timer]
+# Run this timer 1min after bootup and then every day
+OnBootSec=1min
+OnCalendar=daily
+Unit=letsencrypt.service
+
+[Install]
+WantedBy=basic.target

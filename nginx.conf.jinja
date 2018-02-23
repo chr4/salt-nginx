@@ -1,0 +1,25 @@
+# vim: ft=nginx
+
+# Automatically adjust worker_processes to available CPU cores
+worker_processes {{ grains['num_cpus'] }};
+
+events {
+    worker_connections  1024;
+}
+
+# Log to /dev/log, so journald can collect them
+# TODO: Doesn't work for error_log, still created in /var/log/nginx
+error_log syslog:server=unix:/dev/log;
+
+http {
+    access_log syslog:server=unix:/dev/log;
+
+    include mime.types;
+    default_type application/octet-stream;
+
+    sendfile on;
+    keepalive_timeout 65;
+    gzip off;
+
+    include /etc/nginx/conf.d/*.conf;
+}

@@ -1,0 +1,7 @@
+[Unit]
+Description=Renew ACME certificates
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/dehydrated --cron --full-chain
+ExecStartPost=/bin/systemctl restart nginx

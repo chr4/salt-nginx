@@ -1,0 +1,16 @@
+# vim: ft=nginx
+
+server {
+    listen [::]:80 ipv6only=off;
+
+    # Serve well-known path for letsencrypt
+    location /.well-known/acme-challenge {
+        alias {{ acme_challenge_dir }};
+        default_type text/plain;
+    }
+
+    # Redirect everything else to https
+    location / {
+        return 301 https://$http_host$request_uri;
+    }
+}
