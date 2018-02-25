@@ -2,6 +2,7 @@
 
 # Automatically adjust worker_processes to available CPU cores
 worker_processes {{ grains['num_cpus'] }};
+user www-data;
 
 events {
     worker_connections  1024;
