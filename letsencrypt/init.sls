@@ -120,8 +120,7 @@ generate-dummy-cert:
 initial-cert-request:
   cmd.run:
     - names:
-      - systemctl start letsencrypt.service
-      - rm -f {{ acme_certificate_dir }}/{{ domain }}/{dummy.crt,dummy.key}
+      - systemctl start letsencrypt.service && rm -f {{ acme_certificate_dir }}/{{ domain }}/{dummy.crt,dummy.key}
     - onlyif: test -f {{ acme_certificate_dir }}/{{ domain }}/dummy.crt
     - require:
       - file: /lib/systemd/system/letsencrypt.service
