@@ -15,7 +15,6 @@ nginx:
     - watch:
       - pkg: nginx
       - file: /etc/nginx/nginx.conf
-      - file: /etc/nginx/conf.d/*
 
 /etc/nginx/nginx.conf:
   file.managed:
