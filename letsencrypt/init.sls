@@ -54,6 +54,7 @@ dehydrated:
       acme_certificate_dir: {{ acme_certificate_dir }}
       acme_challenge_dir: {{ acme_challenge_dir }}
       contact_email: {{ contact_email }}
+      hook: /etc/dehydrated/hook.sh
   cmd.run:
     - name: /usr/bin/dehydrated --register --accept-terms
     - onchanges:
@@ -67,6 +68,16 @@ dehydrated:
     - mode: 644
     - contents:
       - {{ domain }} {{ salt['pillar.get']('letsencrypt:altnames', '') }}
+    - require:
+      - pkg: dehydrated
+
+# Deploy hook to run upon certificate changes
+/etc/dehydrated/hook.sh:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 755
+    - source: salt://{{ slspath }}/hook.sh
     - require:
       - pkg: dehydrated
 

@@ -54,7 +54,9 @@ KEYSIZE=4096
 #
 # BASEDIR and WELLKNOWN variables are exported and can be used in an external program
 # default: <unset>
-#HOOK=
+{% if hook is defined -%}
+HOOK="{{ hook }}"
+{%- endif %}
 
 # Chain clean_challenge|deploy_challenge arguments together into one hook call per certificate (default: no)
 #HOOK_CHAIN="no"
