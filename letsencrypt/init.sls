@@ -42,7 +42,7 @@ nginx-generate-dhparam:
 dehydrated:
   pkg.installed:
     - sources:
-      - dehydrated: http://de.archive.ubuntu.com/ubuntu/pool/universe/d/dehydrated/dehydrated_0.5.0-1_all.deb
+      - dehydrated: http://de.archive.ubuntu.com/ubuntu/pool/universe/d/dehydrated/dehydrated_0.6.1-1_all.deb
   file.managed:
     - name: /etc/dehydrated/config
     - user: root
