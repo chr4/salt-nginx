@@ -1,5 +1,4 @@
-# Use official PPA
-nginx_repo:
+nginx-repo:
   pkgrepo.managed:
     - name: deb http://nginx.org/packages/mainline/ubuntu xenial nginx
     - file: /etc/apt/sources.list.d/nginx.list
@@ -8,8 +7,7 @@ nginx_repo:
       - pkg: nginx
 
 nginx:
-  pkg.installed:
-    - pkgs: [nginx]
+  pkg.installed: []
   service.running:
     - enable: true
     - watch:
