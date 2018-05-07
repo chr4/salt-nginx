@@ -134,3 +134,4 @@ initial-cert-request:
     - onlyif: test -f {{ acme_certificate_dir }}/{{ domain }}/dummy.crt
     - require:
       - file: /lib/systemd/system/letsencrypt.service
+      - pkg: dehydrated
