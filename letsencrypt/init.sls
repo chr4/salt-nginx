@@ -25,6 +25,16 @@ nginx-generate-dhparam:
     - require:
       - file: {{ acme_certificate_dir }}
 
+# Generate a self-signed dummy certificate, so nginx can start up
+generate-dummy-cert:
+  cmd.run:
+    - names:
+      - openssl req -x509 -nodes -batch -newkey rsa:2048 -keyout {{ acme_certificate_dir }}/{{ domain }}/dummy.key -out {{ acme_certificate_dir }}/{{ domain }}/dummy.crt -days 1
+      - ln -s {{ acme_certificate_dir }}/{{ domain }}/dummy.key {{ acme_certificate_dir }}/{{ domain }}/privkey.pem
+      - ln -s {{ acme_certificate_dir }}/{{ domain }}/dummy.crt {{ acme_certificate_dir }}/{{ domain }}/fullchain.pem
+    - creates: {{ acme_certificate_dir }}/{{ domain }}/fullchain.pem
+
+
 # Deploy site to answer ACME challenges
 /etc/nginx/conf.d/letsencrypt.conf:
   file.managed:
@@ -116,22 +126,6 @@ letsencrypt.timer:
     - name: systemctl daemon-reload
     - onchanges:
       - file: /lib/systemd/system/letsencrypt.service
-
-# Install dummy certificate
-{{ acme_certificate_dir }}/{{ domain }}:
-  file.directory:
-    - user: root
-    - group: root
-    - mode: 755
-
-# Generate a self-signed dummy certificate, so nginx can start up
-generate-dummy-cert:
-  cmd.run:
-    - names:
-      - openssl req -x509 -nodes -batch -newkey rsa:2048 -keyout {{ acme_certificate_dir }}/{{ domain }}/dummy.key -out {{ acme_certificate_dir }}/{{ domain }}/dummy.crt -days 1
-      - ln -s {{ acme_certificate_dir }}/{{ domain }}/dummy.key {{ acme_certificate_dir }}/{{ domain }}/privkey.pem
-      - ln -s {{ acme_certificate_dir }}/{{ domain }}/dummy.crt {{ acme_certificate_dir }}/{{ domain }}/fullchain.pem
-    - creates: {{ acme_certificate_dir }}/{{ domain }}/fullchain.pem
 
 initial-cert-request:
   cmd.run:
