@@ -7,7 +7,7 @@ include:
 {% set domain = salt['pillar.get']('letsencrypt:domain', grains['fqdn']) %}
 {% set altnames = salt['pillar.get']('letsencrypt:altnames', '') %}
 
-{% for dir in [acme_challenge_dir, acme_certificate_dir] %}
+{% for dir in [acme_challenge_dir, acme_certificate_dir, "{}/{}".format(acme_certificate_dir, domain)] %}
 {{ dir }}:
   file.directory:
     - user: root
@@ -40,9 +40,14 @@ nginx-generate-dhparam:
 
 # Install dehydrated, bash only ACME client
 dehydrated:
+  # Ubuntu Xenial doesn't have dehydrated available, so installing it manually
+{% if grains['osrelease'] | float <= 16.04 %}
   pkg.installed:
     - sources:
-      - dehydrated: http://de.archive.ubuntu.com/ubuntu/pool/universe/d/dehydrated/dehydrated_0.6.1-1_all.deb
+      - dehydrated: http://de.archive.ubuntu.com/ubuntu/pool/universe/d/dehydrated/dehydrated_0.6.1-2_all.deb
+{% else %}
+  pkg.installed: []
+{% endif %}
   file.managed:
     - name: /etc/dehydrated/config
     - user: root
