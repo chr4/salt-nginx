@@ -92,7 +92,10 @@ dehydrated:
     - user: root
     - group: root
     - mode: 755
-    - source: salt://{{ slspath }}/hook.sh
+    - source: salt://{{ slspath }}/hook.sh.jinja
+    - template: jinja
+    - defaults:
+      services: {{ salt['pillar.get']('letsencrypt:services', ['nginx']) }}
     - require:
       - pkg: dehydrated
 
@@ -127,6 +130,8 @@ letsencrypt.timer:
     - onchanges:
       - file: /lib/systemd/system/letsencrypt.service
 
+# TODO: When hostname was changed in the same salt-run, nginx is not restarted properly, and
+# also certificates might be generate for the wrong domain (e.g name instead of # name.example.com)
 initial-cert-request:
   cmd.run:
     - names:
