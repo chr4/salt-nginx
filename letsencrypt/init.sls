@@ -1,11 +1,11 @@
 include:
   - nginx
 
-{% set contact_email = salt.pillar.get('letsencrypt:contact_email', 'hostmaster@' + grains['domain']) %}
-{% set acme_challenge_dir = salt.pillar.get('letsencrypt:acme_challenge_dir', '/etc/ssl/acme/challenges') %}
-{% set acme_certificate_dir = salt.pillar.get('letsencrypt:acme_certificate_dir', '/etc/ssl/acme/certs') %}
-{% set domain = salt.pillar.get('letsencrypt:domain', grains['fqdn']) %}
-{% set altnames = salt.pillar.get('letsencrypt:altnames', '') %}
+{% set contact_email = salt['pillar.get']('letsencrypt:contact_email', 'hostmaster@' + grains['domain']) %}
+{% set acme_challenge_dir = salt['pillar.get']('letsencrypt:acme_challenge_dir', '/etc/ssl/acme/challenges') %}
+{% set acme_certificate_dir = salt['pillar.get']('letsencrypt:acme_certificate_dir', '/etc/ssl/acme/certs') %}
+{% set domain = salt['pillar.get']('letsencrypt:domain', grains['fqdn']) %}
+{% set altnames = salt['pillar.get']('letsencrypt:altnames', '') %}
 
 {% for dir in [acme_challenge_dir, acme_certificate_dir, "{}/{}".format(acme_certificate_dir, domain)] %}
 {{ dir }}:
@@ -82,7 +82,7 @@ dehydrated:
     - group: root
     - mode: 644
     - contents:
-      - {{ domain }} {{ salt.pillar.get('letsencrypt:altnames', '') }}
+      - {{ domain }} {{ salt['pillar.get']('letsencrypt:altnames', '') }}
     - require:
       - pkg: dehydrated
 
