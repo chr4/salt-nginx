@@ -1,6 +1,6 @@
 nginx-repo:
   pkgrepo.managed:
-    - name: deb http://nginx.org/packages/mainline/ubuntu xenial nginx
+    - name: deb http://nginx.org/packages/mainline/ubuntu {{ grains['oscodename'] }} nginx
     - file: /etc/apt/sources.list.d/nginx.list
     - key_url: https://nginx.org/keys/nginx_signing.key
     - require_in:
