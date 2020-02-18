@@ -41,7 +41,7 @@ generate-dummy-cert:
     - user: root
     - group: root
     - mode: 644
-    - source: salt://{{ slspath }}/letsencrypt.nginx.jinja
+    - source: salt://{{ tpldir }}/letsencrypt.nginx.jinja
     - template: jinja
     - defaults:
       acme_challenge_dir: {{ acme_challenge_dir }}
@@ -63,7 +63,7 @@ dehydrated:
     - user: root
     - group: root
     - mode: 644
-    - source: salt://{{ slspath }}/dehydrated.conf.jinja
+    - source: salt://{{ tpldir }}/dehydrated.conf.jinja
     - template: jinja
     - defaults:
       acme_certificate_dir: {{ acme_certificate_dir }}
@@ -92,7 +92,7 @@ dehydrated:
     - user: root
     - group: root
     - mode: 755
-    - source: salt://{{ slspath }}/hook.sh.jinja
+    - source: salt://{{ tpldir }}/hook.sh.jinja
     - template: jinja
     - defaults:
       services: {{ salt['pillar.get']('letsencrypt:services', ['nginx']) }}
@@ -110,7 +110,7 @@ letsencrypt.timer:
       - cmd: systemctl daemon-reload
   file.managed:
     - name: /lib/systemd/system/letsencrypt.timer
-    - source: salt://{{ slspath }}/letsencrypt.timer
+    - source: salt://{{ tpldir }}/letsencrypt.timer
     - user: root
     - group: root
     - mode: 644
@@ -121,7 +121,7 @@ letsencrypt.timer:
 
 /lib/systemd/system/letsencrypt.service:
   file.managed:
-    - source: salt://{{ slspath }}/letsencrypt.service
+    - source: salt://{{ tpldir }}/letsencrypt.service
     - user: root
     - group: root
     - mode: 644

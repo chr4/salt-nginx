@@ -17,7 +17,7 @@ nginx:
 
 /etc/nginx/nginx.conf:
   file.managed:
-    - source: salt://{{ slspath }}/nginx.conf.jinja
+    - source: salt://{{ tpldir }}/nginx.conf.jinja
     - template: jinja
     - user: root
     - group: root
