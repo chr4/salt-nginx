@@ -34,4 +34,5 @@ jobs:
     - name: Run inspec
       run: |
         sudo inspec exec tests/integration/nginx
+        sudo inspec exec tests/integration/letsencrypt
         sudo inspec exec tests/integration/unit
