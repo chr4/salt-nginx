@@ -46,3 +46,27 @@ validate-nginx-config:
   file.absent:
     - require:
       - pkg: nginx
+
+# Deploy hardened systemd service
+/lib/systemd/system/nginx.service:
+  service.running:
+    - name: nginx
+    - enable: true
+    - reload: true
+    - watch:
+      - file: /lib/systemd/system/nginx.service
+      - file: /etc/nginx/nginx.conf
+      - pkg: nginx
+    - require:
+      - file: /lib/systemd/system/nginx.service
+      - cmd: systemctl daemon-reload
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 644
+    - source: salt://{{ tpldir }}/nginx.service.jinja
+    - template: jinja
+  cmd.run:
+    - name: systemctl daemon-reload
+    - onchanges:
+      - file: /lib/systemd/system/nginx.service
