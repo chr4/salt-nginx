@@ -22,6 +22,7 @@ validate-nginx-config:
     - watch:
       - file: /etc/nginx/nginx.conf
       - file: /etc/nginx/conf.d/*.conf
+      - file: /etc/systemd/system/nginx.service.d/service.conf
 
 /etc/nginx/nginx.conf:
   file.managed:
@@ -48,25 +49,16 @@ validate-nginx-config:
       - pkg: nginx
 
 # Deploy hardened systemd service
-/lib/systemd/system/nginx.service:
-  service.running:
-    - name: nginx
-    - enable: true
-    - reload: true
-    - watch:
-      - file: /lib/systemd/system/nginx.service
-      - file: /etc/nginx/nginx.conf
-      - pkg: nginx
-    - require:
-      - file: /lib/systemd/system/nginx.service
-      - cmd: systemctl daemon-reload
+/etc/systemd/system/nginx.service.d/service.conf:
   file.managed:
     - user: root
     - group: root
     - mode: 644
-    - source: salt://{{ tpldir }}/nginx.service.jinja
-    - template: jinja
+    - makedirs: true
+    - source: salt://{{ slspath }}/nginx.service
+    - require:
+      - pkg: nginx
   cmd.run:
     - name: systemctl daemon-reload
     - onchanges:
-      - file: /lib/systemd/system/nginx.service
+      - file: /etc/systemd/system/nginx.service.d/service.conf

@@ -1,22 +1,6 @@
 # vim: ft=systemd
 
-[Unit]
-Description=nginx - high performance web server
-Documentation=http://nginx.org/en/docs/
-After=network-online.target remote-fs.target nss-lookup.target
-Wants=network-online.target
-
 [Service]
-# NOTE: The 'daemon off' setting of nginx was not intended for production use.
-#       While it's safe to use since version 1.0.9, it kills restarts without interuption.
-#       See: https://nginx.org/en/docs/faq/daemon_master_process_off.html
-Type=forking
-
-PIDFile=/var/run/nginx.pid
-ExecStart=/usr/sbin/nginx -c /etc/nginx/nginx.conf
-ExecReload=/bin/sh -c "/bin/kill -s HUP $(/bin/cat /var/run/nginx.pid)"
-ExecStop=/bin/sh -c "/bin/kill -s TERM $(/bin/cat /var/run/nginx.pid)"
-
 NoNewPrivileges=true
 ProtectHome=true
 
@@ -47,6 +31,3 @@ MemoryDenyWriteExecute=true
 
 SystemCallFilter=~@chown @clock @cpu-emulation @debug @keyring @memlock @module @mount @obsolete @raw-io @reboot @swap @sync @resources
 SystemCallErrorNumber=EPERM
-
-[Install]
-WantedBy=multi-user.target
