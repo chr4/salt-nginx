@@ -4,9 +4,8 @@
 NoNewPrivileges=true
 ProtectHome=true
 
-# NOTE: strict doesn't seem to work, fails with tons of namespacing errors.
-#       Setting ReadWritePaths doesn't help, unfortunately.
-ProtectSystem=full
+ProtectSystem=strict
+ReadWritePaths=/var/log/nginx /var/run
 
 ProtectKernelTunables=true
 ProtectKernelModules=true
