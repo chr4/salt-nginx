@@ -14,6 +14,14 @@ nginx:
       - pkg: nginx
       - file: /etc/nginx/nginx.conf
       - file: /etc/nginx/conf.d/*.conf
+      - module: validate-nginx-config
+
+validate-nginx-config:
+  module.wait:
+    - name: nginx.configtest
+    - watch:
+      - file: /etc/nginx/nginx.conf
+      - file: /etc/nginx/conf.d/*.conf
 
 /etc/nginx/nginx.conf:
   file.managed:
