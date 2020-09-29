@@ -21,6 +21,9 @@ SystemCallArchitectures=native
 RestrictAddressFamilies=AF_INET6 AF_INET AF_UNIX
 MemoryDenyWriteExecute=true
 
+# Restrict access to mails
+InaccessiblePaths=/var/mail
+
 # We can't enforce PrivateUsers, as nginx depends on the www-data user.
 ; PrivateUsers=true
 
