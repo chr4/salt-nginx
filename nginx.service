@@ -5,7 +5,7 @@ NoNewPrivileges=true
 ProtectHome=true
 
 ProtectSystem=strict
-ReadWritePaths=/var/log/nginx /var/run
+ReadWritePaths=/var/log/nginx /var/run /var/cache/nginx
 
 ProtectKernelTunables=true
 ProtectKernelModules=true
