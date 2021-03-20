@@ -6,6 +6,9 @@ server {
     listen *:80;
     listen [::]:80;
 
+    # Only listen on known domains to prevent host header injection
+    server_name {{ fqdn }};
+
     # Serve well-known path for letsencrypt
     location /.well-known/acme-challenge {
         alias {{ acme_challenge_dir }};

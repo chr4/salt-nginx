@@ -44,6 +44,7 @@ generate-dummy-cert:
     - source: salt://{{ tpldir }}/letsencrypt.nginx.jinja
     - template: jinja
     - defaults:
+      fqdn: {{ domain }} {{ altnames }}
       acme_challenge_dir: {{ acme_challenge_dir }}
     - require:
       - file: /etc/nginx/conf.d
