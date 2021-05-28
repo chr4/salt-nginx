@@ -3,8 +3,8 @@ name: 'Saltstack'
 on: [push, pull_request]
 
 jobs:
-  saltstack:
-    name: 'Saltstack'
+  saltstack_bionic:
+    name: 'Saltstack (Ubuntu 18.04)'
     runs-on: ubuntu-18.04
     steps:
     - name: Install Chef Inspec
@@ -18,6 +18,39 @@ jobs:
       run: |
         wget -O - http://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
         echo "deb http://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest bionic main" | sudo tee /etc/apt/sources.list.d/saltstack.list
+        sudo apt-get update
+        sudo apt-get install -y salt-minion
+
+    - uses: actions/checkout@v1
+    - name: Apply state
+      run: |
+        sudo mkdir /srv/nginx
+        sudo cp -r * /srv/nginx
+        sudo cp tests/top.sls /srv/
+        sudo salt-call state.apply \
+          --local --log-file=/dev/null --retcode-passthrough --file-root /srv --pillar-root \
+          /srv/nginx/tests/pillar
+
+    - name: Run inspec
+      run: |
+        sudo inspec exec tests/integration/nginx
+        sudo inspec exec tests/integration/unit
+
+  saltstack_focal:
+    name: 'Saltstack (Ubuntu 20.04)'
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Install Chef Inspec
+      run: |
+        wget https://packages.chef.io/files/stable/inspec/4.37.20/ubuntu/20.04/inspec_4.37.20-1_amd64.deb
+        sudo dpkg -i inspec_4.37.20-1_amd64.deb
+        rm inspec_4.37.20-1_amd64.deb
+        sudo inspec --chef-license=accept-silent
+
+    - name: Install salt-minion
+      run: |
+        wget -O - http://repo.saltstack.com/py3/ubuntu/20.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
+        echo "deb http://repo.saltstack.com/py3/ubuntu/20.04/amd64/latest focal main" | sudo tee /etc/apt/sources.list.d/saltstack.list
         sudo apt-get update
         sudo apt-get install -y salt-minion
 
