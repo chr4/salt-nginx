@@ -10,7 +10,7 @@ ReadWritePaths=/var/log/nginx /var/run /var/cache/nginx
 ProtectKernelTunables=true
 ProtectKernelModules=true
 ProtectControlGroups=true
-CapabilityBoundingSet=CAP_DAC_OVERRIDE CAP_NET_BIND_SERVICE CAP_SETGID CAP_SETUID
+CapabilityBoundingSet=CAP_DAC_OVERRIDE CAP_NET_BIND_SERVICE CAP_SETGID CAP_SETUID CAP_CHOWN
 LockPersonality=true
 RestrictNamespaces=true
 DevicePolicy=closed
@@ -31,5 +31,5 @@ InaccessiblePaths=/var/mail
 # See: http://mailman.nginx.org/pipermail/nginx-devel/2020-March/013074.html
 ; PrivateTmp=true
 
-SystemCallFilter=~@chown @clock @cpu-emulation @debug @keyring @memlock @module @mount @obsolete @raw-io @reboot @swap @sync @resources
+SystemCallFilter=~@clock @cpu-emulation @debug @keyring @memlock @module @mount @obsolete @raw-io @reboot @swap @sync @resources
 SystemCallErrorNumber=EPERM
