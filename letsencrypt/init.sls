@@ -33,6 +33,8 @@ generate-dummy-cert:
       - ln -s {{ acme_certificate_dir }}/{{ domain }}/dummy.key {{ acme_certificate_dir }}/{{ domain }}/privkey.pem
       - ln -s {{ acme_certificate_dir }}/{{ domain }}/dummy.crt {{ acme_certificate_dir }}/{{ domain }}/fullchain.pem
     - creates: {{ acme_certificate_dir }}/{{ domain }}/fullchain.pem
+    - require:
+      - file: {{ acme_certificate_dir }}/{{ domain }}
 
 
 # Deploy site to answer ACME challenges
@@ -47,6 +49,7 @@ generate-dummy-cert:
       acme_challenge_dir: {{ acme_challenge_dir }}
     - require:
       - file: /etc/nginx/conf.d
+      - file: {{ acme_challenge_dir }}
 
 # Install dehydrated, bash only ACME client
 dehydrated:
