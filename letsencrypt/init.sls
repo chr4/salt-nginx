@@ -77,6 +77,8 @@ dehydrated:
     - name: /usr/bin/dehydrated --register --accept-terms
     - onchanges:
       - pkg: dehydrated
+    - require:
+      - file: /etc/dehydrated/config
 
 
 /etc/dehydrated/domains.txt:
@@ -87,7 +89,7 @@ dehydrated:
     - contents:
       - {{ domain }} {{ salt['pillar.get']('letsencrypt:altnames', '') }}
     - require:
-      - pkg: dehydrated
+      - dehydrated
 
 # Deploy hook to run upon certificate changes
 /etc/dehydrated/hook.sh:
@@ -100,7 +102,7 @@ dehydrated:
     - defaults:
       services: {{ salt['pillar.get']('letsencrypt:services', ['nginx']) }}
     - require:
-      - pkg: dehydrated
+      - file: /etc/dehydrated/domains.txt
 
 # Deploy systemd-timer to renew letsencrypt certificates automatically
 letsencrypt.timer:
@@ -138,8 +140,9 @@ letsencrypt.timer:
 initial-cert-request:
   cmd.run:
     - names:
-      - systemctl start letsencrypt.service && rm {{ acme_certificate_dir }}/{{ domain }}/dummy.key {{ acme_certificate_dir }}/{{ domain }}/dummy.crt
+      - systemctl start nginx.service letsencrypt.service && rm {{ acme_certificate_dir }}/{{ domain }}/dummy.key {{ acme_certificate_dir }}/{{ domain }}/dummy.crt
     - onlyif: test -f {{ acme_certificate_dir }}/{{ domain }}/dummy.crt
     - require:
-      - file: /lib/systemd/system/letsencrypt.service
-      - pkg: dehydrated
+      - dehydrated
+      - file: /etc/dehydrated/hook.sh
+      - cmd: /lib/systemd/system/letsencrypt.service
