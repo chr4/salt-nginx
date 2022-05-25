@@ -1,7 +1,7 @@
 name: nginx
 os: Debian, Ubuntu
 os_family: Debian
-version: 201807
+version: 202205
 release: 1
 summary: Formula to configure nginx with letsencrypt certificates
 description: Formula to configure nginx with letsencrypt certificates
