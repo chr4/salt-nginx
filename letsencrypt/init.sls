@@ -33,6 +33,10 @@ generate-dummy-cert:
       - ln -s {{ acme_certificate_dir }}/{{ domain }}/dummy.key {{ acme_certificate_dir }}/{{ domain }}/privkey.pem
       - ln -s {{ acme_certificate_dir }}/{{ domain }}/dummy.crt {{ acme_certificate_dir }}/{{ domain }}/fullchain.pem
     - creates: {{ acme_certificate_dir }}/{{ domain }}/fullchain.pem
+    - require:
+      - file: {{ acme_certificate_dir }}/{{ domain }}
+    - require_in:
+      - validate-nginx-config
 
 
 # Deploy site to answer ACME challenges
@@ -134,3 +138,4 @@ initial-cert-request:
     - require:
       - file: /lib/systemd/system/letsencrypt.service
       - pkg: dehydrated
+      - service: nginx
