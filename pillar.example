@@ -11,3 +11,8 @@ letsencrypt:
   # NOTE: restart is used instead of reload, because nginx apparently doesn't reload
   #       certificates upon reload
   services: [nginx]
+
+  # Define CA to be used, helpful to choose stagig letsencrypt CA or other CAs for testing
+  # Possible options: letsencrypt, letsencrypt-test, zerossl, buypass, buypass-test
+  # https://github.com/dehydrated-io/dehydrated/blob/master/docs/examples/config#L24
+  ca: letsencrypt

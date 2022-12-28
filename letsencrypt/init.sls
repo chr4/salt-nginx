@@ -6,6 +6,7 @@ include:
 {% set acme_certificate_dir = salt['pillar.get']('letsencrypt:acme_certificate_dir', '/etc/ssl/acme/certs') %}
 {% set domain = salt['pillar.get']('letsencrypt:domain', grains['fqdn']) %}
 {% set altnames = salt['pillar.get']('letsencrypt:altnames', '') %}
+{% set ca = salt['pillar.get']('letsencrypt:ca', 'letsencrypt') %}
 
 {% for dir in [acme_challenge_dir, acme_certificate_dir, "{}/{}".format(acme_certificate_dir, domain)] %}
 {{ dir }}:
@@ -68,6 +69,7 @@ dehydrated:
       acme_challenge_dir: {{ acme_challenge_dir }}
       contact_email: {{ contact_email }}
       hook: /etc/dehydrated/hook.sh
+      ca: {{ ca }}
   cmd.run:
     - name: /usr/bin/dehydrated --register --accept-terms
     - onchanges:
