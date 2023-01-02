@@ -34,3 +34,36 @@ jobs:
     - name: Run inspec
       run: |
         sudo inspec exec tests/integration/nginx
+
+  saltstack_jammy:
+    name: 'Saltstack (Ubuntu 22.04)'
+    runs-on: ubuntu-22.04
+    steps:
+    # NOTE: Inspec repositories are not providing a package for jammy yet
+    - name: Install Chef Inspec
+      run: |
+        wget https://packages.chef.io/files/stable/inspec/4.41.20/ubuntu/20.04/inspec_4.41.20-1_amd64.deb
+        sudo dpkg -i inspec_4.41.20-1_amd64.deb
+        rm inspec_4.41.20-1_amd64.deb
+        sudo inspec --chef-license=accept-silent
+
+    - name: Install salt-minion
+      run: |
+        wget -O - https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/latest/salt-archive-keyring.gpg | sudo apt-key add -
+        echo "deb https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/latest jammy main" | sudo tee /etc/apt/sources.list.d/saltstack.list
+        sudo apt-get update
+        sudo apt-get install -y salt-minion
+
+    - uses: actions/checkout@v1
+    - name: Apply state
+      run: |
+        sudo mkdir /srv/nginx
+        sudo cp -r * /srv/nginx
+        sudo cp tests/top.sls /srv/
+        sudo salt-call state.apply \
+          --local --log-file=/dev/null --retcode-passthrough --file-root /srv --pillar-root \
+          /srv/nginx/tests/pillar
+
+    - name: Run inspec
+      run: |
+        sudo inspec exec tests/integration/nginx
