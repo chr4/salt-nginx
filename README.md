@@ -1,5 +1,7 @@
 # Nginx salt formula
 
+![Saltstack](https://github.com/chr4/salt-nginx/workflows/Saltstack/badge.svg)
+
 Install and configure nginx.
 
 
