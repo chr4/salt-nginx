@@ -20,11 +20,6 @@ It uses lightweight [dehydrated](https://dehydrated.io/) implementation in conju
 See `pillar.example` for documentation details.
 
 
-### unit.sls
-
-Installs [nginx unit](https://www.nginx.com/products/nginx-unit/).
-
-
 ## Notes
 
 Tests currently fail, as it doesn't seem to be possible anymore to start `nginx` within Github Actions. Ideas welcome.
