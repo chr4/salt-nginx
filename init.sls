@@ -50,7 +50,7 @@ validate-nginx-config:
     - require:
       - pkg: nginx
 
-# Ensure cache directory exists
+# Ensure cache directory exists to be read for systemd hardening using ReadWritePaths
 /var/cache/nginx:
   file.directory:
     - name: /var/cache/nginx
