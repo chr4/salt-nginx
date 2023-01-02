@@ -15,6 +15,8 @@ nginx:
       - file: /etc/nginx/nginx.conf
       - file: /etc/nginx/conf.d/*.conf
       - module: validate-nginx-config
+    - require:
+      - cmd: systemctl daemon-reload
 
 validate-nginx-config:
   module.wait:
@@ -48,6 +50,16 @@ validate-nginx-config:
     - require:
       - pkg: nginx
 
+# Ensure cache directory exists to be read for systemd hardening using ReadWritePaths
+/var/cache/nginx:
+  file.directory:
+    - name: /var/cache/nginx
+    - user: root
+    - group: root
+    - mode: 640
+    - require:
+      - pkg: nginx
+
 # Deploy hardened systemd service
 /etc/systemd/system/nginx.service.d/service.conf:
   file.managed:
@@ -58,6 +70,7 @@ validate-nginx-config:
     - source: salt://{{ slspath }}/nginx.service
     - require:
       - pkg: nginx
+      - file: /var/cache/nginx
   cmd.run:
     - name: systemctl daemon-reload
     - onchanges:
