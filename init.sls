@@ -51,6 +51,9 @@ validate-nginx-config:
       - pkg: nginx
 
 # Ensure cache directory exists to be read for systemd hardening using ReadWritePaths
+#
+# NOTE: This is necessary as a workaround for Github Actions during testing only, so only touch the
+# directory unless it's already existing.
 /var/cache/nginx:
   file.directory:
     - name: /var/cache/nginx
@@ -59,6 +62,8 @@ validate-nginx-config:
     - mode: 640
     - require:
       - pkg: nginx
+    - unless: test -d /var/cache/nginx
+
 
 # Deploy hardened systemd service
 /etc/systemd/system/nginx.service.d/service.conf:
