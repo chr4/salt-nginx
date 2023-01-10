@@ -104,12 +104,12 @@ letsencrypt.timer:
   service.running:
     - enable: true
     - watch:
-      - file: /lib/systemd/system/letsencrypt.timer
+      - file: /etc/systemd/system/letsencrypt.timer
     - require:
-      - file: /lib/systemd/system/letsencrypt.timer
+      - file: /etc/systemd/system/letsencrypt.timer
       - cmd: systemctl daemon-reload
   file.managed:
-    - name: /lib/systemd/system/letsencrypt.timer
+    - name: /etc/systemd/system/letsencrypt.timer
     - source: salt://{{ tpldir }}/letsencrypt.timer
     - user: root
     - group: root
@@ -117,9 +117,9 @@ letsencrypt.timer:
   cmd.run:
     - name: systemctl daemon-reload
     - onchanges:
-      - file: /lib/systemd/system/letsencrypt.timer
+      - file: /etc/systemd/system/letsencrypt.timer
 
-/lib/systemd/system/letsencrypt.service:
+/etc/systemd/system/letsencrypt.service:
   file.managed:
     - source: salt://{{ tpldir }}/letsencrypt.service
     - user: root
@@ -128,7 +128,7 @@ letsencrypt.timer:
   cmd.run:
     - name: systemctl daemon-reload
     - onchanges:
-      - file: /lib/systemd/system/letsencrypt.service
+      - file: /etc/systemd/system/letsencrypt.service
 
 # TODO: When hostname was changed in the same salt-run, nginx is not restarted properly, and
 # also certificates might be generate for the wrong domain (e.g name instead of # name.example.com)
@@ -138,6 +138,6 @@ initial-cert-request:
       - systemctl start letsencrypt.service && rm {{ acme_certificate_dir }}/{{ domain }}/dummy.key {{ acme_certificate_dir }}/{{ domain }}/dummy.crt
     - onlyif: test -f {{ acme_certificate_dir }}/{{ domain }}/dummy.crt
     - require:
-      - file: /lib/systemd/system/letsencrypt.service
+      - file: /etc/systemd/system/letsencrypt.service
       - pkg: dehydrated
       - service: nginx
