@@ -54,6 +54,20 @@ generate-dummy-cert:
     - require:
       - file: /etc/nginx/conf.d
 
+# Deploy default server
+/etc/nginx/conf.d/default_server.conf:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 644
+    - source: salt://{{ tpldir }}/default_server.nginx.jinja
+    - template: jinja
+    - defaults:
+      fqdn: {{ domain }}
+      acme_certificate_dir: {{ acme_certificate_dir }}
+    - require:
+      - file: /etc/nginx/conf.d
+
 # Install dehydrated, bash only ACME client
 dehydrated:
   pkg.installed: []

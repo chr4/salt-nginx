@@ -1,0 +1,32 @@
+# default servers for nginx
+# this vHosts will catch all request that are not match an other vHosts server_name.
+server {
+    listen *:80    default_server;
+    listen [::]:80 default_server;
+    return 301 https://{{ fqdn }}$request_uri;
+}
+
+server {
+    listen *:443 default_server;
+    listen [::]:443 default_server;
+
+    ssl_protocols TLSv1.3;
+    ssl_session_cache 'shared:SSL:10m';
+    ssl_prefer_server_ciphers on;
+    ssl_stapling off;
+    ssl_stapling_verify off;
+    ssl_session_tickets off;
+
+    # Security headers
+    add_header X-Content-Type-Options $x_content_type_options;
+    add_header X-Frame-Options $x_frame_options;
+    add_header X-Robots-Tag $x_robots_tag;
+    add_header Referrer-Policy $referrer_policy;
+
+    # SSL certificate
+    ssl_dhparam {{ acme_certificate_dir }}/dhparam.pem;
+    ssl_certificate {{ acme_certificate_dir }}/{{ fqdn }}/fullchain.pem;
+    ssl_certificate_key {{ acme_certificate_dir }}/{{ fqdn }}/privkey.pem;
+
+    return 301 https://{{ fqdn }}$request_uri;
+}
