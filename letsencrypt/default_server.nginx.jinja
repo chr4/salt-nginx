@@ -1,5 +1,5 @@
-# default servers for nginx
-# this vHosts will catch all request that are not match an other vHosts server_name.
+# To prevent host header injection, this file sets the default_server directive and returns
+# HTTP 400 for requests with an unknown hostname in Host header
 server {
     listen *:80    default_server;
     listen [::]:80 default_server;
