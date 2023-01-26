@@ -49,8 +49,8 @@ generate-dummy-cert:
     - source: salt://{{ tpldir }}/letsencrypt.nginx.jinja
     - template: jinja
     - defaults:
-      fqdn: {{ domain }} {{ altnames }}
-      acme_challenge_dir: {{ acme_challenge_dir }}
+        fqdn: {{ domain }} {{ altnames }}
+        acme_challenge_dir: {{ acme_challenge_dir }}
     - require:
       - file: /etc/nginx/conf.d
 
@@ -63,8 +63,8 @@ generate-dummy-cert:
     - source: salt://{{ tpldir }}/default_server.nginx.jinja
     - template: jinja
     - defaults:
-      fqdn: {{ domain }}
-      acme_certificate_dir: {{ acme_certificate_dir }}
+        fqdn: {{ domain }}
+        acme_certificate_dir: {{ acme_certificate_dir }}
     - require:
       - file: /etc/nginx/conf.d
 
@@ -79,11 +79,11 @@ dehydrated:
     - source: salt://{{ tpldir }}/dehydrated.conf.jinja
     - template: jinja
     - defaults:
-      acme_certificate_dir: {{ acme_certificate_dir }}
-      acme_challenge_dir: {{ acme_challenge_dir }}
-      contact_email: {{ contact_email }}
-      hook: /etc/dehydrated/hook.sh
-      ca: {{ ca }}
+        acme_certificate_dir: {{ acme_certificate_dir }}
+        acme_challenge_dir: {{ acme_challenge_dir }}
+        contact_email: {{ contact_email }}
+        hook: /etc/dehydrated/hook.sh
+        ca: {{ ca }}
   cmd.run:
     - name: /usr/bin/dehydrated --register --accept-terms
     - onchanges:
@@ -109,7 +109,7 @@ dehydrated:
     - source: salt://{{ tpldir }}/hook.sh.jinja
     - template: jinja
     - defaults:
-      services: {{ salt['pillar.get']('letsencrypt:services', ['nginx']) }}
+        services: {{ salt['pillar.get']('letsencrypt:services', ['nginx']) }}
     - require:
       - pkg: dehydrated
 
