@@ -1,3 +1,15 @@
+{% set ssl_protocols = salt['pillar.get']('nginx:ssl_protocols', 'TLSv1.1 TLSv1.2 TLSv1.3') %}
+{% set ssl_ciphers = salt['pillar.get']('nginx:ssl_ciphers', [
+  'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:'
+  'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-CHACHA20-POLY1305:',
+  'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256'
+]|join ) %}
+{% set ssl_session_cache = salt['pillar.get']('nginx:ssl_session_cache', 'shared:SSL:10m' ) %}
+{% set ssl_prefer_server_ciphers = salt['pillar.get']('nginx:ssl_prefer_server_ciphers', 'on') %}
+{% set ssl_stapling = salt['pillar.get']('nginx:ssl_stapling', 'off') %}
+{% set ssl_stapling_verify = salt['pillar.get']('nginx:ssl_stapling_verify', 'off') %}
+{% set ssl_session_tickets = salt['pillar.get']('nginx:ssl_session_tickets', 'off') %}
+
 nginx-repo:
   pkgrepo.managed:
     - name: deb http://nginx.org/packages/mainline/ubuntu {{ grains['oscodename'] }} nginx
@@ -33,6 +45,14 @@ validate-nginx-config:
     - user: root
     - group: root
     - mode: 644
+    - defaults:
+        ssl_protocols: {{ ssl_protocols }}
+        ssl_ciphers: {{ ssl_ciphers }}
+        ssl_session_cache: {{ ssl_session_cache }}
+        ssl_prefer_server_ciphers: {{ ssl_prefer_server_ciphers }}
+        ssl_stapling: {{ ssl_stapling }}
+        ssl_stapling_verify: {{ ssl_stapling_verify }}
+        ssl_session_tickets: {{ ssl_session_tickets }}
     - require:
       - pkg: nginx
 
