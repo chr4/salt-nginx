@@ -1,5 +1,5 @@
 # vim: ft=nginx
-
+{# This marcro is needed to revert yaml parse on or off as boolean #}
 {% macro onoff(value) -%}
 {%- if  value == 'on' or value == 'off' %} {{ abc }}
 {%- else -%}
