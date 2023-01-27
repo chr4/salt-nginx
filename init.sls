@@ -51,9 +51,9 @@ validate-nginx-config:
         ssl_ciphers: {{ ssl_ciphers }}
         ssl_session_cache: {{ ssl_session_cache }}
         ssl_prefer_server_ciphers: {{ ssl_prefer_server_ciphers }}
-        ssl_stapling: {{ ssl_stapling }}
-        ssl_stapling_verify: {{ ssl_stapling_verify }}
-        ssl_session_tickets: {{ ssl_session_tickets }}
+        ssl_stapling: '{{ ssl_stapling }}'
+        ssl_stapling_verify: '{{ ssl_stapling_verify }}'
+        ssl_session_tickets: '{{ ssl_session_tickets }}'
     - require:
       - pkg: nginx
 
