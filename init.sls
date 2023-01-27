@@ -1,4 +1,9 @@
-{% set ssl_protocols = salt['pillar.get']('nginx:ssl_protocols', 'TLSv1.1 TLSv1.2 TLSv1.3') %}
+# The cipher suite comes from the Mozilla TLS guide, with the following modifications:
+#  - Prefer Chacha-Poly over AES
+# - Remove less secure DHE based ciphers
+# - Prefer SHA384 over SHA256
+# See: https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28recommended.29
+{% set ssl_protocols = salt['pillar.get']('nginx:ssl_protocols', 'TLSv1.2 TLSv1.3') %}
 {% set ssl_ciphers = salt['pillar.get']('nginx:ssl_ciphers', [
   'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:'
   'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-CHACHA20-POLY1305:',
