@@ -13,6 +13,7 @@ control 'nginx' do
   describe file('/etc/nginx/nginx.conf') do
     its('mode') { should cmp '0644' }
     its('content') { should match /^\s*worker_processes/ }
+    its('content') { should match /^\s*ssl_prefer_server_ciphers\s*on;$/ }
   end
 
   describe file('/etc/nginx/conf.d/default.conf') do

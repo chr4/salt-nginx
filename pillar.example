@@ -1,5 +1,20 @@
 # vim: ft=sls
 
+nginx:
+
+  # Default SSL values which will be written to the http context.
+  # This values can be overwritten in each server context individually.
+  ssl_protocols: 'TLSv1.2 TLSv1.3'
+  ssl_ciphers: 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256' # noqa: 204
+
+  ssl_session_cache: 'shared:SSL:10m'
+  ssl_prefer_server_ciphers: 'on'
+
+  ssl_stapling: 'off'
+  ssl_stapling_verify: 'off'
+  ssl_session_tickets: 'off'
+
+
 letsencrypt:
   domain: example.com
   altnames: www.example.com alt.example.com

@@ -1,15 +1,10 @@
 # To prevent host header injection, this file sets the default_server directive and returns
 # HTTP 400 for requests with an unknown hostname in Host header
 server {
-    listen *:80    default_server;
-    listen [::]:80 default_server;
-
-    return 400 "Unknown Host $host\n";
-}
-
-server {
-    listen *:443 default_server;
-    listen [::]:443 default_server;
+    listen *:80     default_server;
+    listen [::]:80  default_server;
+    listen *:443    default_server ssl;
+    listen [::]:443 default_server ssl;
 
     # SSL certificate
     ssl_dhparam {{ acme_certificate_dir }}/dhparam.pem;

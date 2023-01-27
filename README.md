@@ -11,6 +11,8 @@ Install and configure nginx.
 
 Install the `nginx` package from the official PPA.
 
+Set default ssl settings in the `http` context. This settings can be overwritten for `server {}` block if needed. 
+
 To deploy sites, you need to put your configuration files in `/etc/nginx/conf.d` in another formula.
 
 
