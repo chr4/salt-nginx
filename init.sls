@@ -50,6 +50,7 @@ validate-nginx-config:
         ssl_protocols: {{ ssl_protocols }}
         ssl_ciphers: {{ ssl_ciphers }}
         ssl_session_cache: {{ ssl_session_cache }}
+        # Quotes are needed, because yaml will interpret on/off as boolean with them.
         ssl_prefer_server_ciphers: '{{ ssl_prefer_server_ciphers }}'
         ssl_stapling: '{{ ssl_stapling }}'
         ssl_stapling_verify: '{{ ssl_stapling_verify }}'
