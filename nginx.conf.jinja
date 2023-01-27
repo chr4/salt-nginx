@@ -1,15 +1,4 @@
 # vim: ft=nginx
-{# This marcro is needed to revert yaml parse on or off as boolean #}
-{% macro onoff(value) -%}
-{%- if  value == 'on' or value == 'off' %} {{ abc }}
-{%- else -%}
-{% if value is sameas true or value is sameas false %}
-{%- if value %} on
-{%- else %} off
-{%- endif -%}
-{%- endif -%}
-{%- endif -%}
-{%- endmacro %}
 
 # Automatically adjust worker_processes to available CPU cores
 worker_processes {{ grains['num_cpus'] }};
@@ -39,7 +28,7 @@ http {
     ssl_protocols {{ ssl_protocols }};
     ssl_ciphers {{ ssl_ciphers }};
     ssl_session_cache {{ ssl_session_cache }};
-    ssl_prefer_server_ciphers {{ onoff(ssl_prefer_server_ciphers) }};
+    ssl_prefer_server_ciphers {{ ssl_prefer_server_ciphers }};
     ssl_stapling {{ ssl_stapling }};
     ssl_stapling_verify {{ ssl_stapling_verify }};
     ssl_session_tickets {{ ssl_session_tickets }};
