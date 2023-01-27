@@ -30,7 +30,7 @@ nginx-generate-dhparam:
 generate-dummy-cert:
   cmd.run:
     - names:
-      - openssl req -x509 -nodes -batch -newkey rsa:2048 -keyout {{ acme_certificate_dir }}/{{ domain }}/dummy.key -out {{ acme_certificate_dir }}/{{ domain }}/dummy.crt -days 1
+      - openssl req -x509 -nodes -batch -newkey rsa:2048 -keyout {{ acme_certificate_dir }}/{{ domain }}/dummy.key -out {{ acme_certificate_dir }}/{{ domain }}/dummy.crt -days 1 # noqa: 204
       - ln -s {{ acme_certificate_dir }}/{{ domain }}/dummy.key {{ acme_certificate_dir }}/{{ domain }}/privkey.pem
       - ln -s {{ acme_certificate_dir }}/{{ domain }}/dummy.crt {{ acme_certificate_dir }}/{{ domain }}/fullchain.pem
     - creates: {{ acme_certificate_dir }}/{{ domain }}/fullchain.pem

@@ -4,7 +4,7 @@
 # - Prefer SHA384 over SHA256
 # See: https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28recommended.29
 {% set ssl_protocols = salt['pillar.get']('nginx:ssl_protocols', 'TLSv1.2 TLSv1.3') %}
-{% set ssl_ciphers = salt['pillar.get']('nginx:ssl_ciphers', 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256' ) %}
+{% set ssl_ciphers = salt['pillar.get']('nginx:ssl_ciphers', 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256' ) %} # noqa: 204
 {% set ssl_session_cache = salt['pillar.get']('nginx:ssl_session_cache', 'shared:SSL:10m' ) %}
 {% set ssl_prefer_server_ciphers = salt['pillar.get']('nginx:ssl_prefer_server_ciphers', 'on') %}
 {% set ssl_stapling = salt['pillar.get']('nginx:ssl_stapling', 'off') %}
