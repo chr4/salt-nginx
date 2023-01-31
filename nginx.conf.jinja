@@ -27,6 +27,9 @@ http {
     # Global TLS settings
     ssl_protocols {{ ssl_protocols }};
     ssl_ciphers {{ ssl_ciphers }};
+    {% for item in ssl_conf_command|sort -%}
+    ssl_conf_command {{ item }};
+    {% endfor -%}
     ssl_session_cache {{ ssl_session_cache }};
     ssl_prefer_server_ciphers {{ ssl_prefer_server_ciphers }};
     ssl_stapling {{ ssl_stapling }};
