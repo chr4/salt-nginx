@@ -14,6 +14,7 @@ control 'nginx' do
     its('mode') { should cmp '0644' }
     its('content') { should match /^\s*worker_processes/ }
     its('content') { should match /^\s*ssl_prefer_server_ciphers\s*on;$/ }
+    its('content') { should_not match /^\s*ssl_conf_command/ }
   end
 
   describe file('/etc/nginx/conf.d/default.conf') do
