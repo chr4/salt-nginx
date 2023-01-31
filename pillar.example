@@ -10,10 +10,10 @@ nginx:
   # ssl_conf_command can be specified multiple times, therefore it needs to be a list.
   # Each string needs to hold all arguments for ssl_conf_command, like in the example below.
   # An empty list ([], the default) results in no entries added to nginx.conf
-  ssl_conf_command: [ 'Options PrioritizeChaCha', 'Ciphersuites TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384']
+  ssl_conf_command: ['Options PrioritizeChaCha', 'Ciphersuites TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384']
+
   ssl_session_cache: 'shared:SSL:10m'
   ssl_prefer_server_ciphers: 'on'
-
   ssl_stapling: 'off'
   ssl_stapling_verify: 'off'
   ssl_session_tickets: 'off'
