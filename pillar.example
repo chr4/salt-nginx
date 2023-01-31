@@ -6,13 +6,11 @@ nginx:
   # This values can be overwritten in each server context individually.
   ssl_protocols: 'TLSv1.2 TLSv1.3'
   ssl_ciphers: 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256' # noqa: 204
-  # ssl_conf_command need to be a list, because it can set multiple times in nginx.conf.
-  # Each sting in the list needs to hold all arguments that needs to go to a single line.
-  # See example below.
-  # By default ssl_conf_command is set to an empty list, which result in no entry in the nginx.conf
-  # ssl_conf_command: []
-  # example with values:
-  ssl_conf_command: [ "Options PrioritizeChaCha", "Ciphersuites TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384"]
+
+# ssl_conf_command can be specified multiple times, therefore it needs to be a list.
+# Each string needs to hold all arguments for ssl_conf_command, like in the example below.
+# An empty list ([], the default) results in no entries added to nginx.conf
+ssl_conf_command: [ 'Options PrioritizeChaCha', 'Ciphersuites TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384']
 
 
   ssl_session_cache: 'shared:SSL:10m'
