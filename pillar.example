@@ -37,3 +37,9 @@ letsencrypt:
   #
   # NOTE: This is only available from dehydrated-0.7 onwards
   ca: letsencrypt
+
+  key_algo: rsa
+  keysize: 4096
+
+  # IP version to use (default unset)
+  ip_version: 4

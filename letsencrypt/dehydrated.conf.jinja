@@ -6,10 +6,12 @@
 # Which group should dehydrated run as? This will be implicitly enforced when running as root
 #DEHYDRATED_GROUP=
 
+{%- if ip_version is defined %}
 # Resolve names to addresses of IP version only. (curl)
 # supported values: 4, 6
 # default: <unset>
-IP_VERSION=4
+IP_VERSION={{ ip_version }}
+{%- endif %}
 
 {%- if ca is defined %}
 # URL to certificate authority or internal preset
@@ -58,7 +60,7 @@ ACCOUNTDIR="${BASEDIR}/accounts"
 WELLKNOWN="{{ acme_challenge_dir }}"
 
 # Default keysize for private keys (default: 4096)
-KEYSIZE="4096"
+KEYSIZE="{{ keysize }}"
 
 # Path to openssl config file (default: <unset> - tries to figure out system default)
 #OPENSSL_CNF=
@@ -96,7 +98,7 @@ PRIVATE_KEY_RENEW="yes"
 #PRIVATE_KEY_ROLLOVER="no"
 
 # Which public key algorithm should be used? Supported: rsa, prime256v1 and secp384r1
-KEY_ALGO=rsa
+KEY_ALGO={{ key_algo }}
 
 # E-mail to use during the registration (default: <unset>)
 CONTACT_EMAIL="{{ contact_email }}"

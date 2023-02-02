@@ -7,6 +7,9 @@ include:
 {% set domain = salt['pillar.get']('letsencrypt:domain', grains['fqdn']) %}
 {% set altnames = salt['pillar.get']('letsencrypt:altnames', '') %}
 {% set ca = salt['pillar.get']('letsencrypt:ca', none) %}
+{% set ip_version = salt['pillar.get']('letsencrypt:ip_version', none) %}
+{% set key_algo = salt['pillar.get']('letsencrypt:key_algo', 'rsa') %}
+{% set keysize = salt['pillar.get']('letsencrypt:keysize', 4096) %}
 
 {% for dir in [acme_challenge_dir, acme_certificate_dir, "{}/{}".format(acme_certificate_dir, domain)] %}
 {{ dir }}:
@@ -83,8 +86,13 @@ dehydrated:
         acme_challenge_dir: {{ acme_challenge_dir }}
         contact_email: {{ contact_email }}
         hook: /etc/dehydrated/hook.sh
+        key_algo: {{ key_algo }}
+        keysize: {{ keysize }}
         {% if ca is not none %}
         ca: {{ ca }}
+        {% endif %}
+        {% if ip_version is not none %}
+        ip_version: {{ ip_version }}
         {% endif %}
   cmd.run:
     - name: /usr/bin/dehydrated --register --accept-terms
