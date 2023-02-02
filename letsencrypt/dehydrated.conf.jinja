@@ -11,10 +11,12 @@
 # default: <unset>
 IP_VERSION=4
 
+{%- if ca is defined %}
 # URL to certificate authority or internal preset
 # Presets: letsencrypt, letsencrypt-test, zerossl, buypass, buypass-test
 # default: letsencrypt
 CA="{{ ca }}"
+{%- endif %}
 
 # Path to old certificate authority
 # Set this value to your old CA value when upgrading from ACMEv1 to ACMEv2 under a different endpoint.

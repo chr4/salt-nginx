@@ -34,4 +34,6 @@ letsencrypt:
   # Define CA to be used, helpful to choose stagig letsencrypt CA or other CAs for testing
   # Possible options: letsencrypt, letsencrypt-test, zerossl, buypass, buypass-test
   # https://github.com/dehydrated-io/dehydrated/blob/master/docs/examples/config#L24
+  #
+  # NOTE: This is only available from dehydrated-0.7 onwards
   ca: letsencrypt
