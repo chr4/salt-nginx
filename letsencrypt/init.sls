@@ -28,6 +28,8 @@ nginx-generate-dhparam:
     - creates: {{ acme_certificate_dir }}/dhparam.pem
     - require:
       - file: {{ acme_certificate_dir }}
+    - require_in:
+      - validate-nginx-config
 
 # Generate a self-signed dummy certificate, so nginx can start up
 generate-dummy-cert:
