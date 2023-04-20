@@ -11,5 +11,6 @@ server {
     ssl_certificate {{ acme_certificate_dir }}/{{ fqdn }}/fullchain.pem;
     ssl_certificate_key {{ acme_certificate_dir }}/{{ fqdn }}/privkey.pem;
 
+    default_type text/plain;
     return 400 "Unknown Host $host\n";
 }
