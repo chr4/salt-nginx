@@ -2,7 +2,7 @@ control 'nginx' do
   title 'should be installed & configured'
 
   describe file('/etc/apt/sources.list.d/nginx.list') do
-    its('content') { should match /^deb http:\/\/nginx.org\/packages\/mainline\/ubuntu / }
+    its('content') { should match /^deb \[signed-by=\/etc\/apt\/keyrings\/nginx-keyring.gpg\] http:\/\/nginx.org\/packages\/mainline\/ubuntu / }
   end
 
   describe package('nginx') do
