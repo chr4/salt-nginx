@@ -9,9 +9,9 @@ jobs:
     steps:
     - name: Install Chef Inspec
       run: |
-        wget https://packages.chef.io/files/stable/inspec/4.41.20/ubuntu/20.04/inspec_4.41.20-1_amd64.deb
-        sudo dpkg -i inspec_4.41.20-1_amd64.deb
-        rm inspec_4.41.20-1_amd64.deb
+        wget https://packages.chef.io/files/stable/inspec/5.22.3/ubuntu/20.04/inspec_5.22.3-1_amd64.deb
+        sudo dpkg -i inspec_5.22.3-1_amd64.deb
+        rm inspec_5.22.3-1_amd64.deb
         sudo inspec --chef-license=accept-silent
 
     - name: Install salt-minion
@@ -47,9 +47,9 @@ jobs:
     # NOTE: Inspec repositories are not providing a package for jammy yet
     - name: Install Chef Inspec
       run: |
-        wget https://packages.chef.io/files/stable/inspec/4.41.20/ubuntu/20.04/inspec_4.41.20-1_amd64.deb
-        sudo dpkg -i inspec_4.41.20-1_amd64.deb
-        rm inspec_4.41.20-1_amd64.deb
+        wget https://packages.chef.io/files/stable/inspec/5.22.3/ubuntu/20.04/inspec_5.22.3-1_amd64.deb
+        sudo dpkg -i inspec_5.22.3-1_amd64.deb
+        rm inspec_5.22.3-1_amd64.deb
         sudo inspec --chef-license=accept-silent
 
     - name: Install salt-minion
