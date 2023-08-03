@@ -166,4 +166,3 @@ initial-cert-request:
     - require:
       - file: /etc/systemd/system/letsencrypt.service
       - pkg: dehydrated
-      - service: nginx
